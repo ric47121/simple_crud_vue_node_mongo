@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes SMS</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+    <!-- <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-timezone.min.js"></script>
+
+</head>
+
+<body>
+    <div id="app" class="container ">
+
+        <div class="text-center">
+            <h2 class="">Mensajes SMS</h2>
+            <button class="btn btn-sm btn-primary" @click="refreshMessages()">Refrescar</button>
+            <button class="btn btn-sm btn-primary" @click="showModalAlta()">Alta</button>
+            <ul>
+                <!-- Dentro del bucle v-for que muestra la lista de mensajes -->
+                <li v-for="mensaje in arrData">
+                    {{ mensaje.numero }} - {{ mensaje.mensaje }}
+                    <button class="btn btn-sm btn-warning" @click="showModalEdit(mensaje)"><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-danger" @click="showModalDelete(mensaje)"><i class="bi bi-trash3-fill"></i></button>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="modal" id="myModalAlta">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!--  Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Alta</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Dias body -->
+                    <div class="modal-body">
+
+                        <div class="alert alert-danger fs-6" role="alert" v-if="sms.error">
+                            {{sms.error}}
+                        </div>
+
+                        <form>
+
+                            <div class="mb-3 mt-3">
+                                <label for="user" class="form-label">Numero:</label>
+                                <input type="number" class="form-control" placeholder="numero" name="numero"
+                                    v-model="sms.numero">
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label for="user" class="form-label">Mensaje:</label>
+                                <input type="text" class="form-control" placeholder="mensaje" name="mensaje"
+                                    v-model="sms.mensaje">
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Cerrar</button>
+
+                        <button v-if="sms.modo == 'alta'" type="button" class="btn btn-primary btn-sm" @click="altaSMS()">
+                            Grabar
+                        </button>
+
+                        <button v-if="sms.modo == 'edit'" type="button" class="btn btn-warning btn-sm" @click="editSMS()">
+                            Edit
+                        </button>
+                        <!-- <button type="button" class="btn btn-primary btn-sm" @click="saveDataProfile()">Guardar</button> -->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
